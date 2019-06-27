@@ -1,0 +1,35 @@
+<h1><%= link_to "Events", events_path %></h1>
+
+<table>
+	<thead>
+		<tr>
+			<th>Title</th>
+			<th>Date</th>
+			<% if user_signed_in? %>
+				<th>Edit</th>
+				<th>Delete</th>
+			<% end %>
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @events.each do |event| %>
+			<tr>
+				<td><%= link_to event.title, event %></td>
+				<td><%= link_to event.date.to_formatted_s(:long_ordinal), event %></td>
+				<% if user_signed_in? && (current_user == event.user || current_user.try(:admin?))  %>
+					<td><%= link_to 'Edit', edit_event_path(event) %></td>
+					<td><%= link_to '❌', event, method: :delete, data: { confirm: 'Are you sure?' }%></td>
+				<% else %>
+					<td></td>
+					<td></td>
+				<% end %>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<br>
+<% if user_signed_in? %>
+	<%= button_to 'New Event', new_event_path, method: :get %>
+<% end %>

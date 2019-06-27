@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Events</title>
+		<%= csrf_meta_tags %>
+		<%= csp_meta_tag %>
+
+		<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+		<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+		<!-- CSS Reset -->
+		<link rel="stylesheet" href="//cdn.rawgit.com/necolas/normalize.css/master/normalize.css">
+		<!-- Milligram CSS minified -->
+		<link rel="stylesheet" href="//cdn.rawgit.com/milligram/milligram/master/dist/milligram.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+	 integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+	 crossorigin=""/>
+		<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+	 integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+	 crossorigin=""></script>
+	 <script type="text/javascript" src="https://www.nextzen.org/tangram/0.14/tangram.min.js"></script>
+	</head>
+	<body>
+		<div class="header">
+		<div class="container">
+			<p class="navbar-text pull-right">
+			<%= link_to 'Home', root_path %> | 
+			<% if user_signed_in? %>
+				<%= link_to 'Create a new event', new_event_path %>|
+				Logged in as <strong><%= current_user.name %></strong>.
+				<%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+				<%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+			<% else %>
+				<%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
+				<%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
+			<% end %>
+			<% if current_user.try(:admin?) %>
+				 | <%= link_to "Admin", users_path, :class => 'navbar-link'  %>
+			<% end %>
+			</p>
+		</div>
+		<hr>
+		</div>
+		<div class="container">
+			<% if notice %>
+				<p class="alert alert-success"><%= notice %></p>
+			<% end %>
+			<% if alert %>
+				<p class="alert alert-danger"><%= alert %></p>
+			<% end %>
+			<%= yield %>
+		</div>
+		
+			<hr>
+			<div class="header">
+			<footer class="container">
+				<p>©  Martin Fibik 2019</p>
+			</footer>
+			</div>
+	</body>
+	
+</html>
